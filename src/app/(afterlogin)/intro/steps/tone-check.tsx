@@ -16,7 +16,7 @@ type ToneCheckProps = {
 
 const OPTIONS = [
   {
-    value: "casual",
+    value: "SNS_CASUAL",
     title: "SNS 캐주얼톤",
     content: (
       <>
@@ -29,7 +29,7 @@ const OPTIONS = [
     ),
   },
   {
-    value: "friendly",
+    value: "FRIENDLY",
     title: "정겨운톤",
     content: (
       <>
@@ -42,7 +42,7 @@ const OPTIONS = [
     ),
   },
   {
-    value: "lively",
+    value: "LIVELY",
     title: "발랄한 톤",
     content: (
       <>
@@ -55,7 +55,7 @@ const OPTIONS = [
     ),
   },
   {
-    value: "calm",
+    value: "CALM_EXPLANATORY",
     title: "차분한 설명 톤",
     content: (
       <>

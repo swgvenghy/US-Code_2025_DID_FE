@@ -7,7 +7,7 @@ const ProfilePatchSchema = z.object({
   nickname: z.string(),
   introStatus: z.boolean(),
   gender: z.enum(["MALE", "FEMALE", "OTHER"]),
-  platform: z.array(z.enum(["NAVER_BLOG", "NAVER_SMARTSTORE", "INSTAGRAM"])),
+  platform: z.array(z.enum(["NAVER_BLOG", "NAVER_STORE", "INSTAGRAM"])),
   address: z.string(),
   contactEmail: z.string().email().optional(),
   phoneNumber: z.string().optional(),

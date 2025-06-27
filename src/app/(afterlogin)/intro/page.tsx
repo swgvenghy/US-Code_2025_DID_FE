@@ -82,7 +82,7 @@ export default function IntroPage() {
     > = {
       NAVER_BLOG: "NAVER_BLOG",
       INSTAGRAM: "INSTAGRAM",
-      NAVER_STORE: "NAVER_SMARTSTORE",
+      NAVER_STORE: "NAVER_STORE",
     };
 
     const payload: ProfilePatchType = {
