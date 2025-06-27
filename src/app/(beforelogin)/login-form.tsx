@@ -56,7 +56,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
           className='pb-[60px]'
           width={235}
           height={135}
-          src='/logo2.png'
+          src='/images/logo2.png'
           alt='writeLogo'
         />
 
