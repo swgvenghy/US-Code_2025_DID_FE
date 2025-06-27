@@ -69,7 +69,7 @@ export async function reissueAccessToken(): Promise<string | null> {
 
   const res = await fetch(`${API_PATH.auth}/reissue`, {
     method: "POST",
-    headers: { Authorization: refreshToken },
+    headers: { Authorization: `Bearer ${refreshToken}` },
     cache: "no-store",
   });
 

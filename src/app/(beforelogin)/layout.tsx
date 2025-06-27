@@ -10,7 +10,7 @@ export default async function BeforeLoginLayout({
   const token = await getServerToken("accessToken");
 
   if (token) {
-    redirect("/dashboard");
+    redirect("/intro");
   }
 
   return <>{children}</>;
