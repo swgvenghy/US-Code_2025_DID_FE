@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Toaster } from "../ui/sonner";
 import { LoginFormSchema } from "../store/lib/login-definitions";
 import { postLogin } from "../store/querys/member";
-import { setToken } from "../utils/token/set-token";
+import { setServerAccessTokenCookie } from "../utils/token/set-token";
 import {
   Tooltip,
   TooltipContent,
@@ -35,7 +35,8 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
   const onSubmit = async (data: LoginType) => {
     try {
       const { accessToken, refreshToken } = await postLogin(data);
-      setToken({ name: "accessToken", value: accessToken });
+      setServerAccessTokenCookie(accessToken);
+      sessionStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       toast.success("로그인 성공!");
     } catch (err: unknown) {
