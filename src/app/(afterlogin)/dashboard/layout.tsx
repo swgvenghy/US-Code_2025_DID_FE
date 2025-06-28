@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +14,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { usePopupStore } from "@/app/store/store/popup.store";
+import { useWriteBlogStore } from "@/app/store/store/write-blog.store";
 
 type Props = {
   children: ReactNode;
@@ -23,7 +24,10 @@ export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
   const popup = usePopupStore((s) => s.popup);
   const [open, setOpen] = useState(popup);
-
+  const { reset } = useWriteBlogStore();
+  useEffect(() => {
+    reset();
+  }, [reset]);
   return (
     <>
       {children}

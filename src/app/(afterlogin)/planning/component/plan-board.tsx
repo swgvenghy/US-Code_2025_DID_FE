@@ -21,7 +21,7 @@ export function PlanBoard({ checkedList, onToggle }: PlanBoardProps) {
 
   const plans = usePlanStore((s) => s.plans);
   const basePayload = usePlanStore((s) => s.payload);
-
+  const reset = usePlanStore((s) => s.reset);
   const weekChunks = React.useMemo(() => {
     const chunks: { plan: PlansResItemType; index: number }[][] = [
       [],
@@ -140,7 +140,10 @@ export function PlanBoard({ checkedList, onToggle }: PlanBoardProps) {
 
       <div className='mt-6 flex w-full items-end gap-4 p-8'>
         <button
-          onClick={() => location.reload()}
+          onClick={() => {
+            reset();
+            location.reload();
+          }}
           className='w-[177px] h-14 border border-[#478147] rounded-xl text-[#478147] font-medium'
         >
           다시 만들기

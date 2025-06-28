@@ -10,7 +10,7 @@ export default async function BeforeLoginLayout({
   const token = await getServerToken("accessToken");
 
   if (token) {
-    redirect("/intro");
+    redirect("/dashboard/NAVER_BLOG");
   }
 
   return <>{children}</>;

@@ -24,9 +24,7 @@ export default async function AfterLoginLayout({
   if (!token) redirect("/");
 
   const userInfo = (await getProfile()).data;
-
   const needPopup = userInfo.introStatus === true;
-
   const sideBarItems: SideBarItem[] = (
     Array.isArray(userInfo.platform) ? userInfo.platform : []
   )

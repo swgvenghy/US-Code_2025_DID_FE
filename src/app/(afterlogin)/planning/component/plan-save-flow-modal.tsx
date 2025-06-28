@@ -49,7 +49,6 @@ export function PlanSaveFlowModal({
   const [hour, setHour] = useState(7);
   const [minute, setMinute] = useState(0);
   const contentsTitle = usePlanStore((s) => s.contentsTitle);
-
   const confirmFreq = () => setPage(2);
 
   const confirmTime = async () => {

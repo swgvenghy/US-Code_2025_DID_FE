@@ -11,7 +11,6 @@ import { usePlanStore } from "@/app/store/store/plan.store";
 export default function PlanningPage() {
   const [isFinished, setIsFinished] = useState(false);
   const [checkedList, setCheckedList] = useState<number[]>([]);
-
   const { trigger, data, error, isMutating } = usePostPlan();
 
   const payload = usePlanStore((s) => s.payload);
