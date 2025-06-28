@@ -6,6 +6,7 @@ import Image from "next/image";
 
 export default function DashBoardBlogPage() {
   const [isFinished, setIsFinished] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(true);
   return (
     <div className='flex-row h-full flex'>
