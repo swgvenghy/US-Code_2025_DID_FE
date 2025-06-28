@@ -19,7 +19,7 @@ const OPTIONS = [
   {
     value: "NAVER_BLOG",
     label: "네이버 블로그",
-    icon: "/images/naverblog-icon.png",
+    icon: "/images/NAVER_BLOG-icon.png",
   },
   { value: "CARROT", label: "당근마켓", icon: "/images/dangeun-icon.png" },
   {
@@ -30,7 +30,7 @@ const OPTIONS = [
   {
     value: "NAVER_STORE",
     label: "네이버 스토어",
-    icon: "/images/naverSmartStore-icon.png",
+    icon: "/images/NAVER_STORE-icon.png",
   },
 ] as const;
 
@@ -87,7 +87,7 @@ export function PlatformCheck({ totalStep, currentStep }: PlatformCheckProps) {
         type='submit'
         disabled={selected.length === 0}
         className={`mt-4 p-2 w-[343px] h-[56px] rounded-xl text-white
-                    ${selected.length > 0 ? "bg-[#217011]" : "bg-[#ACACAC]"}`}
+                    ${selected.length > 0 ? "bg-[#217011]" : "bg-[#D7DCE2]"}`}
       >
         시작하기
       </button>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { API_PATH } from "./api-path";
 import { apiFetch } from "./api-fetcher";
+import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 
 const ProfilePatchSchema = z.object({
   name: z.string(),
@@ -22,6 +23,11 @@ const ProfilePatchSchema = z.object({
   ]),
 });
 export type ProfilePatchType = z.infer<typeof ProfilePatchSchema>;
+export type ProfileGetType = {
+  data: ProfilePatchType;
+  status: string;
+  timeStamp: Timestamp;
+};
 
 export async function patchProfile(rawData: ProfilePatchType) {
   const parsed = ProfilePatchSchema.safeParse(rawData);
@@ -38,7 +44,7 @@ export async function patchProfile(rawData: ProfilePatchType) {
 export type ProfileType = z.infer<typeof ProfilePatchSchema>;
 
 export async function getProfile() {
-  return await apiFetch<ProfileType>(`${API_PATH.member}/info`, {
+  return await apiFetch<ProfileGetType>(`${API_PATH.member}/info`, {
     method: "GET",
   });
 }

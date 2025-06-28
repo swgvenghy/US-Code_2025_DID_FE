@@ -21,13 +21,17 @@ export default function SidebarButton({
     : "bg-[#F2F4F6] text-[#A7A7A7]";
 
   const sidebarButtonStyle = cn(baseStyle, selectedStyle);
+  const imageSrc =
+    platform === "INSTAGRAM"
+      ? "/images/instagram-icon.png"
+      : `/images/${platform}-icon.png`;
   return (
     <button className={sidebarButtonStyle} {...props}>
       <Image
         width={32}
         height={32}
         className='w-10 h-10'
-        src={`/images/${platform}-icon.png`}
+        src={imageSrc}
         alt={`${platform}아이콘 로고`}
       />
       <div>{koreanName}</div>

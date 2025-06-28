@@ -2,12 +2,12 @@
 
 import { cookies } from "next/headers";
 
-type CreateTokenProps = {
-  name: string;
-  value: string;
-};
-export async function setToken({ name, value }: CreateTokenProps) {
-  const cookieStore = await cookies();
-
-  cookieStore.set(name, value);
+/** accessToken 을 서버-사이드 쿠키에 기록 */
+export async function setServerAccessTokenCookie(token: string) {
+  (await cookies()).set("accessToken", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60, // 1시간
+  });
 }

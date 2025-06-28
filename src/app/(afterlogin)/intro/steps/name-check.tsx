@@ -66,7 +66,7 @@ export function NameCheck({
             type='text'
             {...register("nickName", { required: "필수 입력 항목입니다." })}
             placeholder={name}
-            className='w-[343px] h-[103px] text-center py-6 px-5 bg-[#E6EAEE] text-xl
+            className='w-[343px] h-[103px] text-center py-6 px-5 bg-[#D7DCE2] text-xl
                   placeholder:text-[#828282] text-black rounded-3xl'
           />
         </div>

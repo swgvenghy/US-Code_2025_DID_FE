@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import SidebarButton from "./sidebar-button";
+import { useRouter } from "next/navigation";
 
-export type Platform = "naverblog" | "naverSmartStore" | "instagram";
+export type Platform = "NAVER_BLOG" | "NAVER_STORE" | "INSTAGRAM";
 
 interface Item {
   key: Platform;
@@ -16,6 +17,7 @@ type SideBarProps = {
 };
 
 export default function SideBar({ items = [] }: SideBarProps) {
+  const router = useRouter();
   const [selected, setSelected] = useState<Platform | null>(
     () => items[0]?.key ?? null
   );
@@ -28,9 +30,13 @@ export default function SideBar({ items = [] }: SideBarProps) {
     }
   }, [items, selected]);
 
-  const handleSelect = useCallback((key: Platform) => {
-    setSelected(key);
-  }, []);
+  const handleSelect = useCallback(
+    (key: Platform) => {
+      setSelected(key);
+      router.push(`/dashboard/${key}`);
+    },
+    [router]
+  );
 
   return (
     <aside
@@ -44,6 +50,7 @@ export default function SideBar({ items = [] }: SideBarProps) {
           width={96}
           height={52}
           priority
+          onClick={() => router.push("/dashboard/NAVER_BLOG")}
         />
       </div>
 

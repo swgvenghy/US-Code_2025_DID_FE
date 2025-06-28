@@ -65,7 +65,7 @@ export default function IntroPage() {
     (async () => {
       try {
         const res = await getProfile();
-        if (!cancelled) setName(res.name);
+        if (!cancelled) setName(res.data.name);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -104,7 +104,7 @@ export default function IntroPage() {
 
     try {
       await patchProfile(payload);
-      router.push("/dashboard");
+      router.push(`/dashboard/${payload.platform[0]}`);
     } catch (e) {
       console.error(e);
       alert("프로필 업데이트에 실패했습니다.");
@@ -159,7 +159,6 @@ export default function IntroPage() {
             />
           </Step>
 
-          {/* ✅ onNext 전달 제거 */}
           <Step name='플랫폼 설정'>
             <PlatformCheck
               totalStep={steps.length}

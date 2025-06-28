@@ -99,10 +99,10 @@ export function CallCheck({ totalStep, currentStep, onNext }: CallCheckProps) {
         {FIELDS.map(({ name, placeholder, iconSrc, iconAlt }) => (
           <div
             key={name}
-            className='w-[343px] h-[103px] px-7 py-9 bg-[#E6EAEE] rounded-3xl flex items-center gap-4'
+            className='w-[343px] h-[103px] px-7 py-9 bg-[#D7DCE2] rounded-3xl flex items-center gap-4'
           >
             <Image width={33} height={33} src={iconSrc} alt={iconAlt} />
-            <div className='h-full border-l border-[#D3D9DF]' />
+            <div className='h-full border-l border-[#ACACAC]' />
             <input
               id={name}
               type='text'

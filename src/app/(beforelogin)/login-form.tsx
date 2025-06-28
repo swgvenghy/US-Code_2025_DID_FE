@@ -37,7 +37,6 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
       const { accessToken, refreshToken } = await postLogin(data);
       setToken({ name: "accessToken", value: accessToken });
       localStorage.setItem("refreshToken", refreshToken);
-
       toast.success("로그인 성공!");
     } catch (err: unknown) {
       const msg =

@@ -7,4 +7,5 @@ export const API_PATH = {
   auth: `${API_URL}/auth`,
   mailAuth: `${API_URL}/member/email`,
   board: `${API_URL}/boards`,
+  blog: `${API_URL}/naver-blog`,
 };
