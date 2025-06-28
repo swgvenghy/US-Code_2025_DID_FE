@@ -15,6 +15,7 @@ import {
   patchProfile,
   ProfilePatchType,
 } from "@/app/store/querys/intro";
+import { useUserStore } from "@/app/store/store/user.store";
 
 type PlatformType = "NAVER_BLOG" | "INSTAGRAM" | "NAVER_STORE";
 type ToneType = "SNS_CASUAL" | "FRIENDLY" | "LIVELY" | "CALM_EXPLANATORY";
@@ -35,6 +36,7 @@ export default function IntroPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
+  const { setUserInfo } = useUserStore();
 
   const steps = [
     "이름 확인",
@@ -104,7 +106,9 @@ export default function IntroPage() {
 
     try {
       await patchProfile(payload);
-      router.push(`/dashboard/${payload.platform[0]}`);
+      setUserInfo(payload);
+      const url = `/dashboard/${payload.platform[0]}`;
+      router.push(url);
     } catch (e) {
       console.error(e);
       alert("프로필 업데이트에 실패했습니다.");

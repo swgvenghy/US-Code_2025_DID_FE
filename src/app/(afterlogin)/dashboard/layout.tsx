@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { usePopupStore } from "@/app/store/store/popup.store";
 import { useWriteBlogStore } from "@/app/store/store/write-blog.store";
+import { useUserStore } from "@/app/store/store/user.store";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: ReactNode;
@@ -22,6 +23,8 @@ type Props = {
 
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
+  const userInfo = useUserStore((s) => s.userInfo);
+  if (!userInfo?.introStatus) router.push("/intro");
   const popup = usePopupStore((s) => s.popup);
   const [open, setOpen] = useState(popup);
   const { reset } = useWriteBlogStore();
