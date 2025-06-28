@@ -29,7 +29,7 @@ export function NameCheck({
   });
 
   return (
-    <div className='flex flex-col gap-6 items-center justify-between p-14 h-full'>
+    <div className='flex flex-col gap-6 items-center justify-between p-13 h-full w-full'>
       <div className='flex flex-col gap-3 items-center'>
         <Steper totalStep={totalStep} currentStep={currentStep} />
 
@@ -48,18 +48,17 @@ export function NameCheck({
           </div>
         </div>
 
-        <div className='flex items-center gap-8'>
+        <div className='flex items-end gap-8'>
           <div style={{ width: 80, height: 80 }}></div>
-          <label
-            htmlFor='nickName'
-            className='flex-1 bg-white p-10 text-xl text-[#343434] rounded-3xl'
-          >
-            고객님들이 {name}님을 뭐라고 불러주었으면 <br />
-            좋겠나요?
-          </label>
+          <div className='flex-1 bg-white p-10 text-xl text-[#343434] rounded-3xl'>
+            <label htmlFor='nickName'>
+              고객님들이 {name}님을 뭐라고 불러주었으면 <br />
+              좋겠나요?
+            </label>
+          </div>
         </div>
 
-        <div className=' flex items-center pt-20'>
+        <div className=' flex items-center pt-17'>
           <div style={{ width: 150, height: 80 }}></div>
           <input
             id='nickName'

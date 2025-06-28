@@ -43,7 +43,7 @@ export function AddressCheck({
   };
 
   return (
-    <div className='flex flex-col gap-6 items-center justify-between p-14 h-full'>
+    <div className='flex flex-col gap-6 items-center justify-between p-13 w-full h-full'>
       <div className='flex flex-col gap-3 items-center'>
         <Steper totalStep={totalStep} currentStep={currentStep} />
 

@@ -123,7 +123,7 @@ export default function IntroPage() {
         onSubmit={methods.handleSubmit(onSubmitProfile, (err) =>
           console.log("검증 실패:", err)
         )}
-        className='flex flex-col items-center pt-14'
+        className='flex flex-col w-full h-full'
       >
         <Funnel>
           <Step name='이름 확인'>

@@ -4,7 +4,6 @@ import { useFormContext } from "react-hook-form";
 import Steper from "@/app/ui/steper";
 import Image from "next/image";
 
-/* ---------------- 타입 ---------------- */
 interface CallCheckForm {
   phoneNumber: string;
   kakaoId: string;
@@ -20,7 +19,6 @@ type CallCheckProps = {
   onNext: () => void;
 };
 
-/* ---------------- 필드 정의 ---------------- */
 const FIELDS: Array<{
   name: keyof CallCheckForm;
   placeholder: string;
@@ -65,12 +63,10 @@ const FIELDS: Array<{
   },
 ];
 
-/* ---------------- 정규식 ---------------- */
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-const phoneRegex = /^01[016789][0-9]{7,8}$/; // 한국 휴대폰 예시
+const phoneRegex = /^01[016789][0-9]{7,8}$/;
 
-/* ---------------- 컴포넌트 ---------------- */
 export function CallCheck({ totalStep, currentStep, onNext }: CallCheckProps) {
   const {
     register,
@@ -81,7 +77,7 @@ export function CallCheck({ totalStep, currentStep, onNext }: CallCheckProps) {
     <div className='flex flex-col gap-6 items-center p-14 h-full'>
       <Steper totalStep={totalStep} currentStep={currentStep} />
 
-      <div className='flex items-end gap-8 mb-10'>
+      <div className='flex items-end gap-8 mb-10 just'>
         <Image
           src='/images/intro-character.png'
           alt='인트로용 캐릭터'
@@ -94,8 +90,7 @@ export function CallCheck({ totalStep, currentStep, onNext }: CallCheckProps) {
         </div>
       </div>
 
-      {/* ---------- 입력 영역 ---------- */}
-      <div className='grid grid-cols-2 gap-4 w-full'>
+      <div className='grid grid-cols-2 gap-4 w-full justify-items-center content-center'>
         {FIELDS.map(({ name, placeholder, iconSrc, iconAlt }) => (
           <div
             key={name}

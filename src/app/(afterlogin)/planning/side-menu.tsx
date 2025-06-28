@@ -3,12 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "@/app/ui/button";
-import { usePlanStore } from "@/app/store/store/plan.store";
+import { usePlanStore, usePlanReqStore } from "@/app/store/store/plan.store";
 
 const BLOG_TOPICS = ["작물소개", "일상공유", "상품홍보"] as const;
 const CROPS = ["마늘", "사과", "흑마늘", "쌀", "자두"] as const;
-type Topic = (typeof BLOG_TOPICS)[number];
-type Crop = (typeof CROPS)[number];
 
 type SideMenuProps = {
   setFinished: (v: boolean) => void;
@@ -18,26 +16,30 @@ type SideMenuProps = {
 export function SideMenu({ isFinished, setFinished }: SideMenuProps) {
   const setPayload = usePlanStore((s) => s.setPayload);
 
-  const [selectedTopic, setSelectedTopic] = useState<Topic>("상품홍보");
-  const [selectedCrop, setSelectedCrop] = useState<Crop>("흑마늘");
+  const {
+    topic: selectedTopic,
+    crop: selectedCrop,
+    keywords,
+    setTopic,
+    setCrop,
+    addKeyword,
+    removeKeyword,
+  } = usePlanReqStore();
+
   const [weeklyPostCnt, setWeeklyPostCnt] = useState(1);
   const [keywordInput, setKeywordInput] = useState("");
-  const [keywords, setKeywords] = useState<string[]>([]);
 
-  const addKeyword = () => {
+  const handleAddKeyword = () => {
     const k = keywordInput.trim();
     if (!k || keywords.includes(k)) return;
-    setKeywords((prev) => [...prev, k]);
+    addKeyword(k);
     setKeywordInput("");
   };
-
-  const removeKeyword = (k: string) =>
-    setKeywords((prev) => prev.filter((w) => w !== k));
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      addKeyword();
+      handleAddKeyword();
     }
   };
 
@@ -61,7 +63,7 @@ export function SideMenu({ isFinished, setFinished }: SideMenuProps) {
         <section className='flex flex-col gap-6'>
           <div className='flex flex-col gap-0.5'>
             <h2 className='font-pretendard font-semibold text-xl flex items-center'>
-              블로그 주제 선택{" "}
+              블로그 주제 선택
               <span className='text-[#767676] text-base'>*</span>
             </h2>
             <p className='text-[#767676] text-sm font-medium'>
@@ -75,7 +77,7 @@ export function SideMenu({ isFinished, setFinished }: SideMenuProps) {
                 variant='secondary'
                 size='small'
                 selected={selectedTopic === t}
-                onClick={() => setSelectedTopic(t)}
+                onClick={() => setTopic(t)}
               >
                 {t}
               </Button>
@@ -99,7 +101,7 @@ export function SideMenu({ isFinished, setFinished }: SideMenuProps) {
                 variant='secondary'
                 size='small'
                 selected={selectedCrop === c}
-                onClick={() => setSelectedCrop(c)}
+                onClick={() => setCrop(c)}
               >
                 {c}
               </Button>

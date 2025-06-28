@@ -105,7 +105,7 @@ export function ToneCheck({ totalStep, currentStep, onNext }: ToneCheckProps) {
               ${
                 selected === opt.value
                   ? "bg-white text-black border border-[#488143] shadow"
-                  : "bg-[#ACACAC] text-black"
+                  : "bg-[#D7DCE2] text-black"
               }
             `}
           >
