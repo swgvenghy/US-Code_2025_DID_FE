@@ -11,10 +11,12 @@ import { usePlanStore } from "@/app/store/store/plan.store";
 export default function PlanningPage() {
   const [isFinished, setIsFinished] = useState(false);
   const [checkedList, setCheckedList] = useState<number[]>([]);
+
   const { trigger, data, error, isMutating } = usePostPlan();
 
   const payload = usePlanStore((s) => s.payload);
   const setPlans = usePlanStore((s) => s.setPlans);
+  const setContentsTitle = usePlanStore((s) => s.setContentsTitle);
   const plansLen = usePlanStore((s) => s.plans.length);
 
   const toggleChecked = (idx: number) =>
@@ -28,10 +30,11 @@ export default function PlanningPage() {
 
   useEffect(() => {
     if (data) {
-      setPlans(data);
+      setContentsTitle(data.contentsTitle);
+      setPlans(data.plans);
       setCheckedList([]);
     }
-  }, [data, setPlans]);
+  }, [data, setContentsTitle, setPlans]);
 
   return (
     <div className='flex flex-col w-full h-full'>
@@ -46,8 +49,10 @@ export default function PlanningPage() {
         </Link>
         <h1 className='font-semibold text-xl text-white'>블로그 한달계획</h1>
       </header>
+
       <main className='flex flex-row flex-1 overflow-hidden'>
         <SideMenu isFinished={isFinished} setFinished={setIsFinished} />
+
         <div className='flex flex-1 justify-center items-center'>
           {isMutating && (
             <div>
@@ -55,19 +60,22 @@ export default function PlanningPage() {
                 src='/images/loading.gif'
                 width={143}
                 height={233}
-                alt='loading indicator'
+                alt='loading'
               />
               <div>로딩중입니다!</div>
             </div>
           )}
-          {!isMutating && plansLen > 0 && (
+
+          {!isMutating && plansLen !== 0 && (
             <div className='h-full overflow-scroll'>
               <PlanBoard checkedList={checkedList} onToggle={toggleChecked} />
             </div>
           )}
+
           {!isMutating && error && (
             <span className='text-red-500'>오류가 발생했습니다.</span>
           )}
+
           {!isFinished && !isMutating && plansLen === 0 && (
             <Image
               src='/images/plan_character.png'

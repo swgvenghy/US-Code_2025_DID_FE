@@ -9,11 +9,14 @@ export type PlansPayloadType = {
   type: "NAVER_BLOG" | "NAVER_STORE" | "INSTAGRAM";
   keywords: string[];
 };
-
 export type PlansResItemType = {
   title: string;
   summary: string;
-  conceptTitle: string;
+};
+
+export type PlansResEnvelope = {
+  contentsTitle: string;
+  plans: PlansResItemType[];
 };
 
 export type PlansResType = PlansResItemType[];
@@ -22,13 +25,27 @@ async function postPlanFetcher(
   url: string,
   { arg }: { arg: PlansPayloadType }
 ) {
-  const res = await apiFetch<PlansResType>(url, {
+  const res = await apiFetch<PlansResEnvelope>(url, {
     method: "POST",
     body: JSON.stringify(arg),
   });
+  console.log(res);
   return res;
 }
 
 export function usePostPlan() {
   return useSWRMutation(`${API_PATH.blog}/plans`, postPlanFetcher);
 }
+
+export type PostPlanSavePayload = PlansResEnvelope & PlansPayloadType;
+
+export async function postPlanSaveFetch({ arg }: { arg: PostPlanSavePayload }) {
+  await apiFetch(`${API_PATH.blog}/plans/save`, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  });
+}
+
+//----
+
+//블로그 작성하기

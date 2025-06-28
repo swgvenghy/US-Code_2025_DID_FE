@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { usePopupStore } from "@/app/store/store/popup.store";
 
 type Props = {
   children: ReactNode;
@@ -20,7 +21,8 @@ type Props = {
 
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
-  const [open, setOpen] = useState(true);
+  const popup = usePopupStore((s) => s.popup);
+  const [open, setOpen] = useState(popup);
 
   return (
     <>

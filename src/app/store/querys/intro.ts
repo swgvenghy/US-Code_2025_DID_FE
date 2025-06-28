@@ -48,3 +48,16 @@ export async function getProfile() {
     method: "GET",
   });
 }
+
+export type AlarmPayloads = {
+  alarmFrequency: "TWICE" | "ONCE" | "THIRD";
+  alramTime: string;
+  introStatus: boolean;
+};
+
+export async function alarmPatchProfile(payloads: AlarmPayloads) {
+  await apiFetch<void>(`${API_PATH.member}/info`, {
+    method: "PATCH",
+    body: JSON.stringify(payloads),
+  });
+}

@@ -2,10 +2,14 @@
 
 import * as React from "react";
 import { Accordion } from "@/components/ui/accordion";
-import { chunkBy4 } from "./chunkBy4";
-import { PlanItem } from "./plan-item";
 import { usePlanStore } from "@/app/store/store/plan.store";
+import { PlanItem } from "./plan-item";
 import { PlanSaveFlowModal } from "./plan-save-flow-modal";
+import {
+  postPlanSaveFetch,
+  type PlansResItemType,
+  type PostPlanSavePayload,
+} from "@/app/store/querys/ai";
 
 interface PlanBoardProps {
   checkedList: number[];
@@ -13,8 +17,21 @@ interface PlanBoardProps {
 }
 
 export function PlanBoard({ checkedList, onToggle }: PlanBoardProps) {
-  const data = usePlanStore((s) => s.plans);
-  const weekChunks = React.useMemo(() => chunkBy4(data), [data]);
+  const contentsTitle = usePlanStore((s) => s.contentsTitle);
+
+  const plans = usePlanStore((s) => s.plans);
+  const basePayload = usePlanStore((s) => s.payload);
+
+  const weekChunks = React.useMemo(() => {
+    const chunks: { plan: PlansResItemType; index: number }[][] = [
+      [],
+      [],
+      [],
+      [],
+    ];
+    plans.forEach((plan, idx) => chunks[idx % 4].push({ plan, index: idx }));
+    return chunks;
+  }, [plans]);
 
   const [openByWeek, setOpenByWeek] = React.useState<
     Record<number, string | undefined>
@@ -29,54 +46,94 @@ export function PlanBoard({ checkedList, onToggle }: PlanBoardProps) {
 
   const planTitles = React.useMemo(
     () =>
-      checkedList
-        .map((i) => data[i]?.title)
-        .filter((v): v is string => typeof v === "string"),
-    [checkedList, data]
+      checkedList.map((i) => plans[i]?.title).filter((v): v is string => !!v),
+    [checkedList, plans]
   );
 
-  const handleComplete = async ({
-    frequency,
-    hour,
-    minute,
-  }: {
+  const handleSavePlans = async () => {
+    if (!basePayload) {
+      alert("먼저 ‘한 달 계획 만들기’를 진행해 주세요.");
+      return;
+    }
+    if (!contentsTitle) {
+      alert("콘셉트 제목이 없습니다.");
+      return;
+    }
+    if (checkedList.length === 0) {
+      alert("저장할 글을 선택해 주세요.");
+      return;
+    }
+
+    const selectedPlans = checkedList.map((i) => plans[i]);
+
+    const arg: PostPlanSavePayload = {
+      ...basePayload,
+      contentsTitle,
+      plans: selectedPlans,
+    };
+
+    try {
+      await postPlanSaveFetch({ arg });
+      setSaveOpen(true);
+    } catch (err) {
+      console.error(err);
+      alert("저장 중 오류가 발생했습니다.");
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleComplete = async (_: {
     frequency: string;
     hour: number;
     minute: number;
   }) => {
-    // await saveAlarm({ frequency, hour, minute, plans: checkedList });
-    console.log(frequency, hour, minute);
+    await handleSavePlans();
     setSaveOpen(false);
   };
 
   return (
     <div className='p-6 rounded-xl h-full'>
+      {contentsTitle && (
+        <h2 className='mb-6 font-bold text-lg text-[#222528]'>
+          {contentsTitle}
+        </h2>
+      )}
+
       <div className='flex flex-col flex-1 gap-10 overflow-y-auto'>
         {weekChunks.map((week, wIdx) => (
           <section key={wIdx} className='space-y-4'>
-            <h2 className='font-semibold text-[#767676] text-base'>
+            <h3 className='font-semibold text-[#767676] text-base'>
               {wIdx + 1}주차
-            </h2>
-            <Accordion
-              type='single'
-              collapsible
-              value={openByWeek[wIdx]}
-              onValueChange={(v) => setOpenByWeek((o) => ({ ...o, [wIdx]: v }))}
-              className='space-y-3'
-            >
-              {week.map(({ item, index }, idx) => (
-                <PlanItem
-                  key={`week${wIdx}-${idx}`}
-                  weekIdx={wIdx}
-                  idx={idx}
-                  title={item.title}
-                  summary={item.summary}
-                  isOpen={openByWeek[wIdx] === `week${wIdx}-${idx}`}
-                  isChecked={done[index] ?? false}
-                  toggleCheck={() => onToggle(index)}
-                />
-              ))}
-            </Accordion>
+            </h3>
+
+            {week.length === 0 ? (
+              <div className='text-[#aaaaaa] text-sm ml-2'>
+                등록된 계획이 없습니다.
+              </div>
+            ) : (
+              <Accordion
+                type='single'
+                collapsible
+                value={openByWeek[wIdx]}
+                onValueChange={(v) =>
+                  setOpenByWeek((o) => ({ ...o, [wIdx]: v }))
+                }
+                className='space-y-3'
+              >
+                {week.map(({ plan, index }, idxInWeek) => (
+                  <PlanItem
+                    key={`week${wIdx}-${idxInWeek}`}
+                    weekIdx={wIdx}
+                    idx={idxInWeek}
+                    title={plan.title}
+                    summary={plan.summary}
+                    isOpen={openByWeek[wIdx] === `week${wIdx}-${idxInWeek}`}
+                    isChecked={done[index] ?? false}
+                    toggleCheck={() => onToggle(index)}
+                  />
+                ))}
+              </Accordion>
+            )}
           </section>
         ))}
       </div>
@@ -92,7 +149,7 @@ export function PlanBoard({ checkedList, onToggle }: PlanBoardProps) {
         <button
           className='flex-1 h-14 bg-[#488143] rounded-xl text-white font-medium disabled:opacity-50'
           disabled={checkedList.length === 0}
-          onClick={() => setSaveOpen(true)}
+          onClick={handleSavePlans}
         >
           계획 저장
         </button>
