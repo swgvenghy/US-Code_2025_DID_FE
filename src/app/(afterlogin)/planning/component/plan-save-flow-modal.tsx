@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { usePlanStore } from "@/app/store/store/plan.store";
 import { alarmPatchProfile } from "@/app/store/querys/intro";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const freqOptions = [
   { label: "초보자/ 삼일에 한번", value: "3d", recommended: false },
@@ -43,6 +43,7 @@ export function PlanSaveFlowModal({
   planTitles,
   onComplete,
 }: PlanSaveFlowModalProps) {
+  const router = useRouter();
   const [page, setPage] = useState(0);
   const [frequency, setFrequency] =
     useState<(typeof freqOptions)[number]["value"]>("3d");
@@ -68,7 +69,7 @@ export function PlanSaveFlowModal({
 
       onOpenChange(false);
       setPage(0);
-      redirect("/dashboard/NAVER_BLOG");
+      router.push("/dashboard/NAVER_BLOG");
     } catch (e) {
       console.error(e);
     }

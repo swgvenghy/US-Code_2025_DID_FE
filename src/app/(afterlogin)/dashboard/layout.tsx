@@ -24,7 +24,12 @@ type Props = {
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
   const userInfo = useUserStore((s) => s.userInfo);
-  if (!userInfo?.introStatus) router.push("/intro");
+  useEffect(() => {
+    if (!userInfo?.introStatus) {
+      router.push("/intro");
+    }
+  }, [userInfo, router]);
+
   const popup = usePopupStore((s) => s.popup);
   const [open, setOpen] = useState(popup);
   const { reset } = useWriteBlogStore();
